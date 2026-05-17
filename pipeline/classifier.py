@@ -21,26 +21,29 @@ _SYSTEM_PROMPT = (
     "Analyze document text and respond ONLY with valid JSON — no markdown, no explanation."
 )
 
-_USER_TEMPLATE = """Classify this document into one of: invoice, loan_application, government_id, contract, bank_statement, unknown.
-
-Extract relevant structured fields:
-- invoice: vendor, amount, date, invoice_number, due_date
-- loan_application: applicant_name, loan_amount, property_address, loan_type, date
-- government_id: id_type, name, id_number, expiry_date, issuing_authority
-- contract: parties, effective_date, expiry_date, contract_type, value
-- bank_statement: account_holder, account_number, bank_name, period, closing_balance
-- unknown: any fields you can identify
-
-Respond with exactly this JSON structure:
-{{
-  "document_type": "<type>",
-  "confidence": <float 0.0-1.0>,
-  "extracted_fields": {{}},
-  "summary": "<one sentence>"
-}}
-
-Document text:
-{text}"""
+_USER_TEMPLATE = (
+    "Classify this document into one of: "
+    "invoice, loan_application, government_id, contract, bank_statement, unknown.\n"
+    "\n"
+    "Extract relevant structured fields:\n"
+    "- invoice: vendor, amount, date, invoice_number, due_date\n"
+    "- loan_application: applicant_name, loan_amount, property_address, loan_type, date\n"
+    "- government_id: id_type, name, id_number, expiry_date, issuing_authority\n"
+    "- contract: parties, effective_date, expiry_date, contract_type, value\n"
+    "- bank_statement: account_holder, account_number, bank_name, period, closing_balance\n"
+    "- unknown: any fields you can identify\n"
+    "\n"
+    "Respond with exactly this JSON structure:\n"
+    "{{\n"
+    '  "document_type": "<type>",\n'
+    '  "confidence": <float 0.0-1.0>,\n'
+    '  "extracted_fields": {{}},\n'
+    '  "summary": "<one sentence>"\n'
+    "}}\n"
+    "\n"
+    "Document text:\n"
+    "{text}"
+)
 
 
 def classify_document(extracted_text: str, api_key: Optional[str] = None) -> dict:
