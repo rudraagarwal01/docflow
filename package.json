@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "npm run dev --prefix dashboard",
+    "build": "npm run build --prefix dashboard"
+  },
+  "dependencies": {
+    "framer-motion": "^12.40.0"
+  }
+}
