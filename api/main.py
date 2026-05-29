@@ -1,3 +1,4 @@
+import json
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -40,6 +41,24 @@ app.add_middleware(
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "DocFlow"}
+
+
+@app.get("/history")
+async def get_history():
+    records = []
+    output_dir = Path("output")
+    if output_dir.exists():
+        for log_file in output_dir.glob("*/routing_log.jsonl"):
+            for line in log_file.read_text().splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError:
+                    pass
+    records.sort(key=lambda r: r.get("timestamp", ""), reverse=True)
+    return records
 
 
 @app.post("/upload")
